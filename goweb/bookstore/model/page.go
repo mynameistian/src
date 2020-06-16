@@ -9,6 +9,8 @@ type Page struct {
 	TotalRecord int64   //总记录数
 	MinPrice    string  //最小金额
 	MaxPrice    string  //最大金额
+	IsLogin     bool    //是否登录
+	UserName    string  //登录用户名
 
 }
 

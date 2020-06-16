@@ -14,10 +14,12 @@ func main() {
 	//直接去访问页面
 	//http.Handle("/index/", http.StripPrefix("/pages/", http.FileServer(http.Dir("views/pages"))))
 	//引擎
-	http.HandleFunc("/main", controller.IndexHandler)
+	http.HandleFunc("/main", controller.ToUpdateBookPageByPrice)
 
 	//登录函数
 	http.HandleFunc("/login", controller.Login)
+	//注销
+	http.HandleFunc("/logout", controller.Logout)
 	//注册
 	http.HandleFunc("/regist", controller.Regist)
 	//通过Ajax请求验证用户名是否可用
@@ -36,5 +38,8 @@ func main() {
 	http.HandleFunc("/updateBook", controller.UpdateBook)
 	//获取分页书列表
 	http.HandleFunc("/getPageBooks", controller.GetPageBooks)
+	//添加图书到购物车
+	http.HandleFunc("/addBook2Cart", controller.AddBook2Cart)
+
 	http.ListenAndServe(":8080", nil)
 }

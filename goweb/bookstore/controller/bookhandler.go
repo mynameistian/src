@@ -78,12 +78,13 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 
 	iSales, _ := strconv.Atoi(sales)
 	iStock, _ := strconv.Atoi(stock)
+	fprice, _ := strconv.ParseFloat(price, 64)
 	iid, _ := strconv.Atoi(id)
 	book := &model.Book{
 		ID:     iid,
 		Title:  title,
 		Author: author,
-		Price:  price,
+		Price:  fprice,
 		Sales:  iSales,
 		Stock:  iStock,
 	}
@@ -111,21 +112,21 @@ func GetPageBooks(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, Page)
 }
 
-//IndexHandler 去首页
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+// //IndexHandler 去首页
+// func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
-	page := r.FormValue("pageNo")
+// 	page := r.FormValue("pageNo")
 
-	if page == "" {
-		page = "1"
-	}
+// 	if page == "" {
+// 		page = "1"
+// 	}
 
-	//调用bookdao中获取所有图书的函数
+// 	//调用bookdao中获取所有图书的函数
 
-	Page, _ := DBdao.GetPageBooks(page)
-	t := template.Must(template.ParseFiles("views/index.html"))
-	t.Execute(w, Page)
-}
+// 	Page, _ := DBdao.GetPageBooks(page)
+// 	t := template.Must(template.ParseFiles("views/index.html"))
+// 	t.Execute(w, Page)
+// }
 
 //ToUpdateBookPageByPrice 带价格查询
 func ToUpdateBookPageByPrice(w http.ResponseWriter, r *http.Request) {
@@ -146,6 +147,14 @@ func ToUpdateBookPageByPrice(w http.ResponseWriter, r *http.Request) {
 		Page.MinPrice = priceMin
 		Page.MaxPrice = priceMax
 	}
+	flag, session := DBdao.IsLogin(r)
+
+	if flag {
+		//已经登录
+		Page.IsLogin = true
+		Page.UserName = session.UserName
+	}
+
 	t := template.Must(template.ParseFiles("views/index.html"))
 	t.Execute(w, Page)
 }
