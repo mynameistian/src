@@ -6,6 +6,8 @@ import (
 	"net" //做网络socket开发时,net包含有我们需要所有的方法和函数
 )
 
+var num int
+
 //自己编写一个函数，接收两个文件路径 srcFileName dstFileName
 func CopyFile(srcFileName string, dstFileName string) {
 
@@ -33,7 +35,6 @@ func process(conn net.Conn) {
 	srcFileName := "C:\\Program Files\\CASIC\\HDmon Agent\\HDmon_agentd.log"
 	dstFileName := "C:\\Program Files\\CASIC\\HDmon Agent\\bak\\HDmon_agentd.log"
 
-	i := 0
 	for {
 		//创建一个新的切片
 		buf := make([]byte, 1024)
@@ -46,9 +47,9 @@ func process(conn net.Conn) {
 		fmt.Print(string(buf[:n]))
 		if string(buf[:n]) == "GetBuffSucc" {
 			fmt.Println("CopyFile")
-			dstFileName1 := fmt.Sprintf("%s-%d", dstFileName, i)
+			dstFileName1 := fmt.Sprintf("%s-%d", dstFileName, num)
 			CopyFile(srcFileName, dstFileName1)
-			i++
+			num++
 		}
 	}
 }

@@ -58,7 +58,7 @@ func main() {
 	// //当函数退出时，要及时的关闭file
 	// defer file.Close() //要及时关闭file句柄，否则会有内存泄漏.
 
-	file, err := os.Open("F:/桌面/vn.CSV")
+	file, err := os.Open("F:/桌面/2.csv")
 	if err != nil {
 		fmt.Println("open file err=", err)
 	}
