@@ -149,7 +149,10 @@ func TestCart(t *testing.T) {
 	//t.Run("测试添加购物车", testAddCart)
 	// t.Run("测试添加购物车", testGetCartItemByBookID)
 	// t.Run("测试添加购物车", testGetCatrtItemByCartID)
-	t.Run("测试添加购物车", testGetCartByUserId)
+	//t.Run("测试添加购物车", testGetCartByUserId)
+	// t.Run("测试添加购物车", testUpdateBookCount)
+	// t.Run("测试添加购物车", testDeleteCartByCartID)
+	// t.Run("测试添加购物车", testDeleteCartItemByID)
 
 }
 
@@ -218,5 +221,91 @@ func testGetCartByUserId(t *testing.T) {
 
 	for _, k := range cart.CartItems {
 		fmt.Println(k)
+	}
+}
+
+func testUpdateBookCount(t *testing.T) {
+	// err := UpdateBookCount(20, 1, "66668888")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+}
+
+func testDeleteCartByCartID(t *testing.T) {
+	err := DeleteCartByCartID("62badce8-2bcb-42a7-4028-536b58e7e03b")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func testDeleteCartItemByID(t *testing.T) {
+	err := DeleteCartItemByID("50")
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func TestOrder(t *testing.T) {
+	fmt.Println("订单相关测试")
+	// t.Run("测试订单详情添加", testAddOrder)
+	// t.Run("测试订单详情添加", testAddOrderItem)
+	t.Run("测试订单详情添加", testUpdateOrder)
+}
+
+func testAddOrderItem(t *testing.T) {
+	orderItem := &model.OrderItem{
+		ID:      123,
+		Count:   1,
+		Amount:  13,
+		Title:   "你猜",
+		Author:  "田利军",
+		Price:   13,
+		ImgPath: "nil",
+		OrderId: "123",
+	}
+	err := AddOrderItem(orderItem)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+func testGetOrderItem(t *testing.T) {
+	orders, err := GetOrderItem("123")
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, v := range orders {
+		fmt.Println(v)
+	}
+}
+
+func testAddOrder(t *testing.T) {
+	order := &model.Order{
+		ID:          123,
+		CreateTime:  "2020-06-26 12:01:01",
+		TotalCount:  1,
+		TotalAmount: 13,
+		State:       0,
+		Uer_id:      6,
+	}
+	err := AddOrder(order)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func testGetOrder(t *testing.T) {
+	orders, err := GetOrder("123")
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, v := range orders {
+		fmt.Println(v)
+	}
+}
+
+func testUpdateOrder(t *testing.T) {
+	err := UpdateOrderState(2, "123")
+	if err != nil {
+		fmt.Println(err)
 	}
 }

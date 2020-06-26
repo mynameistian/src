@@ -17,7 +17,12 @@
 			var param = {"bookId":bookId}
 			//发送Ajax请求
 			$.post(url,param,function(res){
-
+				if (res == "noLogin"){
+					location = "/pages/user/login.html"
+				}else{
+					//将相应信息设置到span中
+					$("#bookMsg").text(res);
+				}
 			});
 		});
 	});
@@ -30,7 +35,7 @@
 			{{if .IsLogin}}
 				<div>
 					<span>欢迎<span class="um_span">{{.UserName}}</span>光临尚硅谷书城</span>
-					<a href="/pages/cart/cart.html">购物车</a>
+					<a href="/getCartInfo">购物车</a>
 					<a href="/logout">注销</a>&nbsp;&nbsp;
 					<a href="/pages/manager/manager.html">后台管理</a>
 				</div>
@@ -38,7 +43,7 @@
 				<div>
 					<a href="/pages/user/login.html">登录</a> | 
 					<a href="/pages/user/regist.html">注册</a> &nbsp;&nbsp;
-					<a href="/pages/cart/cart.html">购物车</a>
+					<a href="/getCartInfo">购物车</a>
 					<a href="/pages/manager/manager.html">后台管理</a>
 				</div>
 			{{end}}
@@ -53,9 +58,9 @@
 			</form>
 			</div>
 			<div style="text-align: center">
-				<span>您的购物车中有3件商品</span>
+				<!-- <span>您的购物车中有3件商品</span> -->
 				<div>
-					您刚刚将<span style="color: red">时间简史</span>加入到了购物车中
+					<span style="color: red" id="bookMsg"></span>
 				</div>
 			</div>
 			{{range .Books}}

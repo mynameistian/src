@@ -19,3 +19,28 @@ CREATE TABLE cart_itmes(
 	foreign  key(book_id) REFERENCES books(id),
 	foreign  key(cart_id) REFERENCES carts(id)
 )
+
+-- 创建订单表
+CREATE TABLE orders(
+id VARCHAR(100) PRIMARY KEY,
+create_time time NOT NULL,
+total_count INT NOT NULL,
+total_amount numeric(11,2) NOT NULL,
+state INT NOT NULL,
+user_id INT,
+FOREIGN KEY(user_id) REFERENCES users(id)
+)
+
+
+-- 创建订单项表
+CREATE TABLE order_items(
+id SERIAL primary key NOT NULL,
+COUNT INT NOT NULL,
+amount numeric(11,2) NOT NULL,
+title VARCHAR(100) NOT NULL,
+author VARCHAR(100) NOT NULL,
+price numeric(11,2) NOT NULL,
+img_path VARCHAR(100) NOT NULL,
+order_id VARCHAR(100) NOT NULL,
+FOREIGN KEY(order_id) REFERENCES orders(id)
+)
