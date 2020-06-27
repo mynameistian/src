@@ -5,6 +5,6 @@ type Order struct {
 	CreateTime  string
 	TotalCount  int64
 	TotalAmount float64
-	State       int64
+	State       string
 	Uer_id      int64
 }

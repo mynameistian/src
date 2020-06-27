@@ -16,11 +16,11 @@ func AddOrder(order *model.Order) error {
 	return nil
 }
 
-func GetOrder(orderId string) ([]*model.Order, error) {
+func GetOrder(user_id int) ([]*model.Order, error) {
 
-	sql := "select id , create_time,total_count,total_amount ,state , user_id from orders where id = $1;"
+	sql := "select id , create_time,total_count,total_amount ,state , user_id from orders where user_id = $1;"
 
-	rows, err := utils.Db.Query(sql, orderId)
+	rows, err := utils.Db.Query(sql, user_id)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err

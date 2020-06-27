@@ -280,7 +280,7 @@ func testGetOrderItem(t *testing.T) {
 
 func testAddOrder(t *testing.T) {
 	order := &model.Order{
-		ID:          123,
+		ID:          "123",
 		CreateTime:  "2020-06-26 12:01:01",
 		TotalCount:  1,
 		TotalAmount: 13,

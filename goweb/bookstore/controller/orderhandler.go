@@ -20,7 +20,7 @@ func Checkout(w http.ResponseWriter, r *http.Request) {
 		//将用户购物车中的内容添加到订单中
 		cart, _ := DBdao.GetCartByUserId(userID)
 
-		CreatTime := time.Now().String()
+		CreatTime := time.Now().Format("2006-01-02 15:04:05")
 		orderId := utils.CreateUUID()
 		if cart != nil {
 			//将购物车添加订单信息中
@@ -29,7 +29,7 @@ func Checkout(w http.ResponseWriter, r *http.Request) {
 				CreateTime:  CreatTime,
 				TotalAmount: cart.TotalAmount,
 				TotalCount:  cart.TotalCount,
-				State:       0,
+				State:       "未发货",
 				Uer_id:      int64(userID),
 			}
 			DBdao.AddOrder(order)
@@ -62,6 +62,41 @@ func Checkout(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, session)
 		//跳转页面
 	} else {
+		Login(w, r)
+	}
+}
 
+//跳转订单页面
+func GetMyOrder(w http.ResponseWriter, r *http.Request) {
+	var userID int
+	bLogin, session := DBdao.IsLogin(r)
+	if bLogin {
+		userID = session.UserID
+		//根据用户id获取订单列表
+		orders, _ := DBdao.GetOrder(userID)
+		if orders != nil {
+			//获取订单列表成功
+			//页面展示
+			// for _, v := range orders {
+			// 	fmt.Println(v)
+			// }
+			session.Orders = orders
+			t := template.Must(template.ParseFiles("views/pages/order/order.html"))
+			t.Execute(w, session)
+		} else {
+			//获取订单列表失败
+		}
+	} else {
+		Login(w, r)
+	}
+}
+
+func GetOrderInfo(w http.ResponseWriter, r *http.Request) {
+
+	orderId := r.FormValue("orderId")
+	orderItems, _ := DBdao.GetOrderItem(orderId)
+	if orderItems != nil {
+		t := template.Must(template.ParseFiles("views/pages/order/order_info.html"))
+		t.Execute(w, orderItems)
 	}
 }
